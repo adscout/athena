@@ -14,7 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       aws.security_groups = ['applications']
       aws.ami = "ami-7747d01e"
       aws.region = "us-east-1"
-      aws.instance_type = "m3.medium"
+      aws.instance_type = "m1.small"
 
       override.vm.box = "dummy"
       override.ssh.username = "ubuntu"
@@ -22,5 +22,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.provision "shell", path: "provision.sh", env: ENV
+  config.vm.provision "shell", path: "provision.sh", args: [
+    ENV['AWS_KEY'],
+    ENV['AWS_SECRET'],
+    ENV['SQS_HOST'],
+    ENV['SQS_PORT']
+  ]
 end
