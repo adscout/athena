@@ -1,1 +1,5 @@
 boto==2.42.0
+facebook-sdk==2.0.0
+facebookads==2.7.1
+requests==2.11.1
+six==1.10.0

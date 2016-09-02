@@ -1,9 +1,8 @@
-import logging
 import sys
 import argparse
-from worker.sqs import SQS
-
-logging.basicConfig(level=logging.DEBUG,  stream=sys.stdout, format="%(asctime)-15s %(levelname)-8s %(message)s")
+from athena.model import DynamoDB
+from athena.queue import SQS
+from athena.worker import Worker
 
 if __name__ == "__main__":    
     parser = argparse.ArgumentParser()
@@ -14,3 +13,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     sqs = SQS(args.awsKey, args.awsSecret, args.sqsHost, args.sqsPort)
+    ddb = DynamoDB(args.awsKey, args.awsSecret, args.sqsHost, args.sqsPort)
+
+    worker = Worker(sqs, ddb)
+    worker.run()
